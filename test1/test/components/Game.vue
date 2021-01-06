@@ -1,0 +1,262 @@
+<template>
+  <b-container>
+    <b-row>
+      <b-col>
+        <div class="amount">score {{ amountCorrect }}/{{ amount }}</div>
+        {{ question.answer }}
+      </b-col>
+    </b-row>
+    <b-row>
+      <b-col>
+        <p class="urlapi text-light">{{ question.title }}</p>
+        <div
+          class="choice"
+          v-bind:class="{
+            'bg-danger':
+              choiceChoose == 1 && question.choice1 != question.answer,
+            'bg-success':
+              choiceChoose != 0 && question.choice1 == question.answer,
+          }"
+          @click="selectChoice(1)"
+        >
+          <p class="choice-prefix">A</p>
+          <p class="choice-text">{{ question.choice1 }}</p>
+        </div>
+        <div
+          class="choice"
+          v-bind:class="{
+            'bg-danger':
+              choiceChoose == 2 && question.choice2 != question.answer,
+            'bg-success':
+              choiceChoose != 0 && question.choice2 == question.answer,
+          }"
+          @click="selectChoice(2)"
+        >
+          <p class="choice-prefix">B</p>
+          <p class="choice-text">{{ question.choice2 }}</p>
+        </div>
+        <div
+          class="choice"
+          v-bind:class="{
+            'bg-danger':
+              choiceChoose == 3 && question.choice3 != question.answer,
+            'bg-success':
+              choiceChoose != 0 && question.choice3 == question.answer,
+          }"
+          @click="selectChoice(3)"
+        >
+          <p class="choice-prefix">C</p>
+          <p class="choice-text">{{ question.choice3 }}</p>
+        </div>
+        <div
+          class="choice"
+          v-bind:class="{
+            'bg-danger':
+              choiceChoose == 4 && question.choice4 != question.answer,
+            'bg-success':
+              choiceChoose != 0 && question.choice4 == question.answer,
+          }"
+          @click="selectChoice(4)"
+        >
+          <p class="choice-prefix">D</p>
+          <p class="choice-text">{{ question.choice4 }}</p>
+        </div>
+      </b-col>
+    </b-row>
+    <b-row>
+      <b-col>
+        <b-button
+          class="btquiz"
+          @click="nextQuestion"
+          :disabled="choiceChoose == 0"
+          >nextquestion</b-button
+        >
+      </b-col>
+    </b-row>
+  </b-container>
+</template>
+<script>
+import axios from 'axios'
+export default {
+  props: {
+    questionList: Array,
+  },
+  data() {
+    return {
+      amount: 10,
+      amountCorrect: 0,
+      amountInCorrect: 0,
+      numberChoice: 1,
+      stateGame: 0,
+      choiceChoose: 0,
+      question: {
+        title: '',
+        choice1: '',
+        choice2: '',
+        choice3: '',
+        choice4: '',
+        answer: '',
+      },
+    }
+  },
+  methods: {
+    getquestion: function () {
+      let result = this.questionList[this.numberChoice - 1]
+
+      this.question.title = this.numberChoice + '. ' + result.question
+      let choiceList = result.incorrect_answers
+      choiceList.push(result.correct_answer)
+      this.randomChoice(choiceList)
+      this.question.answer = result.correct_answer
+    },
+    randomChoice: function (choiceList) {
+      let choiceTempList = []
+
+      let index = 1
+      while (choiceList.length != 0) {
+        let random = Math.floor(Math.random() * choiceList.length)
+        if (index == 1) {
+          this.question.choice1 = choiceList[random]
+        }
+        if (index == 2) {
+          this.question.choice2 = choiceList[random]
+        }
+        if (index == 3) {
+          this.question.choice3 = choiceList[random]
+        }
+        if (index == 4) {
+          this.question.choice4 = choiceList[random]
+        }
+        index++
+        choiceList.splice(random, 1)
+        console.log('random' + random)
+        console.log(choiceList)
+      }
+      console.log(choiceTempList)
+      console.log(choiceList)
+    },
+    selectChoice: function (index) {
+      if (this.choiceChoose == 0) {
+        if (index == 1) {
+          this.addScore(this.question.choice1)
+        }
+        if (index == 2) {
+          this.addScore(this.question.choice2)
+        }
+        if (index == 3) {
+          this.addScore(this.question.choice3)
+        }
+        if (index == 4) {
+          this.addScore(this.question.choice4)
+        }
+        this.choiceChoose = index
+        console.log(this.question)
+      }
+    },
+    nextQuestion: function () {
+      if (this.numberChoice == this.questionList.length) {
+        this.stateGame = 2
+      } else {
+        this.choiceChoose = 0
+        this.numberChoice++
+        this.getquestion()
+      }
+    },
+    addScore: function (choiceText) {
+      if (choiceText == this.question.answer) {
+        this.amountCorrect++
+      } else {
+        this.amountInCorrect++
+      }
+    },
+    generate: function (event) {
+      this.getquestionList()
+    },
+  },
+}
+</script>
+<style>
+.correct {
+  text-align: center;
+  color: green;
+}
+.incorrect {
+  text-align: center;
+  color: red;
+}
+label {
+  color: white;
+  font-weight: bold;
+  margin-top: 1%;
+}
+input {
+  width: 100%;
+  height: 40px;
+  border: none;
+  padding-left: 1%;
+}
+select {
+  width: 100%;
+  height: 40px;
+  border: none;
+  padding-left: 1%;
+}
+.bt {
+  margin-top: 2%;
+  margin-bottom: 2%;
+  width: 100%;
+  height: 60px;
+  font-size: 25px;
+  font-weight: bold;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.6);
+  border: none;
+}
+.choice {
+  display: flex;
+  margin-top: 2%;
+  margin-bottom: 1%;
+  width: 100%;
+  border: 0.1px solid blue;
+  background-color: white;
+}
+.choice:hover {
+  cursor: pointer;
+  background-color: #ffcccc;
+}
+.choice-prefix {
+  padding: 2%;
+  margin: 0;
+  background-color: #ff99cc;
+  color: white;
+  text-align: center;
+}
+.choice-text {
+  padding: 2%;
+  height: 0px;
+  text-align: center;
+}
+.urlapi {
+  font-weight: bold;
+  font-size: 25px;
+}
+.card {
+  padding: 2%;
+  background-color: #ccffff;
+}
+.btn {
+  width: 100%;
+  height: 50px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 2%;
+}
+.amount {
+  float: right;
+  color: white;
+  font-weight: bold;
+  border: 2px solid black;
+  padding: 1%;
+}
+</style>
