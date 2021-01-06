@@ -1,9 +1,4 @@
 <template>
-  <b-container>
-    <!-- <template>
-      <start :questionList="questionList" />
-    </template> -->
-    <template v-if="stateGame == 0">
       <form action="" class="from1">
         <b-row>
           <b-col>
@@ -41,112 +36,12 @@
           </b-col>
         </b-row>
       </form>
-    </template>
-    <template>
-      <Game :questionList="questionList" />
-    </template>
-    <!-- <template v-if="stateGame == 1">
-      <b-row>
-        <b-col>
-          <div class="amount">score {{ amountCorrect }}/{{ amount }}</div>
-          {{ question.answer }}
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col>
-          <p class="urlapi text-light" v-html="question.title" ></p>
-          <div
-            class="choice"
-            v-bind:class="{
-              'bg-danger':
-                choiceChoose == 1 && question.choice1 != question.answer,
-              'bg-success':
-                choiceChoose != 0 && question.choice1 == question.answer,
-            }"
-            @click="selectChoice(1)"
-          >
-            <p class="choice-prefix">A</p>
-            <p class="choice-text" v-html="question.choice1" ></p>
-          </div>
-          <div
-            class="choice"
-            v-bind:class="{
-              'bg-danger':
-                choiceChoose == 2 && question.choice2 != question.answer,
-              'bg-success':
-                choiceChoose != 0 && question.choice2 == question.answer,
-            }"
-            @click="selectChoice(2)"
-          >
-            <p class="choice-prefix">B</p>
-            <p class="choice-text" v-html="question.choice2"></p>
-          </div>
-          <div
-            class="choice"
-            v-bind:class="{
-              'bg-danger':
-                choiceChoose == 3 && question.choice3 != question.answer,
-              'bg-success':
-                choiceChoose != 0 && question.choice3 == question.answer,
-            }"
-            @click="selectChoice(3)"
-          >
-            <p class="choice-prefix">C</p>
-            <p class="choice-text" v-html="question.choice3"></p>
-          </div>
-          <div
-            class="choice"
-            v-bind:class="{
-              'bg-danger':
-                choiceChoose == 4 && question.choice4 != question.answer,
-              'bg-success':
-                choiceChoose != 0 && question.choice4 == question.answer,
-            }"
-            @click="selectChoice(4)"
-          >
-            <p class="choice-prefix">D</p>
-            <p class="choice-text" v-html="question.choice4"></p>
-          </div>
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col>
-          <b-button class="btquiz" @click="nextQuestion" :disabled=" choiceChoose == 0" >nextquestion</b-button>
-        </b-col>
-      </b-row>
-    </template> -->
-    <template v-if="stateGame == 2">
-      <div class="card">
-        <b-row>
-          <b-col>
-            <h2 class="correct">Correct answer : {{ amountCorrect }}</h2>
-          </b-col>
-        </b-row>
-        <b-row>
-          <b-col>
-            <h2 class="incorrect">InCorrect answer : {{ amountInCorrect }}</h2>
-          </b-col>
-        </b-row>
-      </div>
-      <b-row>
-        <b-col>
-          <b-button class="btn" @click="resetQuestionList">Submit</b-button>
-        </b-col>
-      </b-row>
-    </template>
-    <!-- <span class="urlapi"></span> -->
-  </b-container>
 </template>
 <script>
 import axios from 'axios'
-import Game from './Game'
-// import start from './start'
-// import reset from './reset'
 export default {
-  components: {
-    Game,
-    // start,
-    // reset
+props: {
+    
   },
   data() {
     return {
@@ -313,14 +208,6 @@ export default {
 }
 </script>
 <style>
-.correct {
-  text-align: center;
-  color: green;
-}
-.incorrect {
-  text-align: center;
-  color: red;
-}
 label {
   color: white;
   font-weight: bold;
@@ -348,52 +235,5 @@ select {
   background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.6);
   border: none;
-}
-.choice {
-  display: flex;
-  margin-top: 2%;
-  margin-bottom: 1%;
-  width: 100%;
-  border: 0.1px solid blue;
-  background-color: white;
-}
-.choice:hover {
-  cursor: pointer;
-  background-color: #ffcccc;
-}
-.choice-prefix {
-  padding: 2%;
-  margin: 0;
-  background-color: #ff99cc;
-  color: white;
-  text-align: center;
-}
-.choice-text {
-  padding: 2%;
-  height: 0px;
-  text-align: center;
-}
-.urlapi {
-  font-weight: bold;
-  font-size: 25px;
-}
-.card {
-  padding: 2%;
-  background-color: #ccffff;
-}
-.btn {
-  width: 100%;
-  height: 50px;
-  text-align: center;
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 2%;
-}
-.amount {
-  float: right;
-  color: white;
-  font-weight: bold;
-  border: 2px solid black;
-  padding: 1%;
 }
 </style>

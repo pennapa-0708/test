@@ -8,7 +8,7 @@
     </b-row>
     <b-row>
       <b-col>
-        <p class="urlapi text-light">{{ question.title }}</p>
+        <p class="urlapi text-light" v-html="question.title"></p>
         <div
           class="choice"
           v-bind:class="{
@@ -20,7 +20,7 @@
           @click="selectChoice(1)"
         >
           <p class="choice-prefix">A</p>
-          <p class="choice-text">{{ question.choice1 }}</p>
+          <p class="choice-text" v-html="question.choice1"></p>
         </div>
         <div
           class="choice"
@@ -33,7 +33,7 @@
           @click="selectChoice(2)"
         >
           <p class="choice-prefix">B</p>
-          <p class="choice-text">{{ question.choice2 }}</p>
+          <p class="choice-text" v-html="question.choice2"></p>
         </div>
         <div
           class="choice"
@@ -46,7 +46,7 @@
           @click="selectChoice(3)"
         >
           <p class="choice-prefix">C</p>
-          <p class="choice-text">{{ question.choice3 }}</p>
+          <p class="choice-text" v-html="question.choice3"></p>
         </div>
         <div
           class="choice"
@@ -59,7 +59,7 @@
           @click="selectChoice(4)"
         >
           <p class="choice-prefix">D</p>
-          <p class="choice-text">{{ question.choice4 }}</p>
+          <p class="choice-text" v-html="question.choice4"></p>
         </div>
       </b-col>
     </b-row>
@@ -111,7 +111,6 @@ export default {
     },
     randomChoice: function (choiceList) {
       let choiceTempList = []
-
       let index = 1
       while (choiceList.length != 0) {
         let random = Math.floor(Math.random() * choiceList.length)
@@ -160,6 +159,7 @@ export default {
         this.choiceChoose = 0
         this.numberChoice++
         this.getquestion()
+        console.log('test',this.questionList)
       }
     },
     addScore: function (choiceText) {
@@ -176,42 +176,6 @@ export default {
 }
 </script>
 <style>
-.correct {
-  text-align: center;
-  color: green;
-}
-.incorrect {
-  text-align: center;
-  color: red;
-}
-label {
-  color: white;
-  font-weight: bold;
-  margin-top: 1%;
-}
-input {
-  width: 100%;
-  height: 40px;
-  border: none;
-  padding-left: 1%;
-}
-select {
-  width: 100%;
-  height: 40px;
-  border: none;
-  padding-left: 1%;
-}
-.bt {
-  margin-top: 2%;
-  margin-bottom: 2%;
-  width: 100%;
-  height: 60px;
-  font-size: 25px;
-  font-weight: bold;
-  background-color: rgb(0, 0, 0);
-  background-color: rgba(0, 0, 0, 0.6);
-  border: none;
-}
 .choice {
   display: flex;
   margin-top: 2%;
@@ -239,18 +203,6 @@ select {
 .urlapi {
   font-weight: bold;
   font-size: 25px;
-}
-.card {
-  padding: 2%;
-  background-color: #ccffff;
-}
-.btn {
-  width: 100%;
-  height: 50px;
-  text-align: center;
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 2%;
 }
 .amount {
   float: right;
