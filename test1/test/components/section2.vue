@@ -165,6 +165,7 @@ export default {
     },
     resetQuestionList() {
       this.amount=10
+      this.category=0
       this.stateGame = 1
       this.choiceChoose = 0
       this.questionList = []
