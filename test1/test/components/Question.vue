@@ -2,14 +2,6 @@
   <b-container>
     <b-row>
       <b-col>
-        <div class="amount">score {{ countCorrect }}/{{ amount }}</div>
-        <div class="text-light">
-        {{ question.answer }}
-        </div>
-      </b-col>
-    </b-row>
-    <b-row>
-      <b-col>
         <p class="urlapi text-light" v-html="question.title"></p>
         <div
           class="choice"

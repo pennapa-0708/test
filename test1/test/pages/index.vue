@@ -64,6 +64,8 @@ export default {
     },
     getquestionList: function (category, amount) {
       this.amount = amount
+      this.category=category
+      
       let apiquestions = 'https://opentdb.com/api.php?'
       console.log('category', this.category)
       let url = ''
@@ -80,7 +82,6 @@ export default {
       }
       axios.get(url).then((response) => {
         this.questionList = response.data.results
-
         // this.getquestion()
         this.stateGame = 2
         console.log(url)
@@ -98,16 +99,6 @@ export default {
     // generate: function (event) {
     //   this.getquestionList()
     // },
-    resetQuestionList() {
-      this.amount = 10
-      this.category = 0
-      this.stateGame = 1
-      this.choiceChoose = 0
-      this.questionList = []
-      this.countCorrect = 0
-      this.countInCorrect = 0
-      this.numberChoice = 1
-    },
   },
 }
 </script>
