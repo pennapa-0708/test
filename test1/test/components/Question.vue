@@ -78,7 +78,6 @@
   </b-container>
 </template>
 <script>
-import axios from 'axios'
 export default {
   props: {
     questionList: Array,

@@ -43,7 +43,7 @@
       </form>
     </template>
     <template v-if="stateGame == 2">
-      <Game
+      <Question
         :questionList="questionList"
         :countCorrect="countCorrect"
         :countInCorrect="countInCorrect"
@@ -75,13 +75,13 @@
   </b-container>
 </template>
 <script>
-import axios from 'axios'
-import Game from './Game'
+
+import Question from './Question'
 // import start from './start'
 // import reset from './reset'
 export default {
   components: {
-    Game,
+    Question,
     // start,
     // reset
   },
