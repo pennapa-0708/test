@@ -3,7 +3,7 @@
     <!-- <template>
       <start :questionList="questionList" />
     </template> -->
-    <template v-if="stateGame == 0">
+    <template v-if="stateGame == 1">
       <form action="" class="from1">
         <b-row>
           <b-col>
@@ -42,89 +42,26 @@
         </b-row>
       </form>
     </template>
-    <template>
-      <Game :questionList="questionList" />
-    </template>
-    <!-- <template v-if="stateGame == 1">
-      <b-row>
-        <b-col>
-          <div class="amount">score {{ amountCorrect }}/{{ amount }}</div>
-          {{ question.answer }}
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col>
-          <p class="urlapi text-light" v-html="question.title" ></p>
-          <div
-            class="choice"
-            v-bind:class="{
-              'bg-danger':
-                choiceChoose == 1 && question.choice1 != question.answer,
-              'bg-success':
-                choiceChoose != 0 && question.choice1 == question.answer,
-            }"
-            @click="selectChoice(1)"
-          >
-            <p class="choice-prefix">A</p>
-            <p class="choice-text" v-html="question.choice1" ></p>
-          </div>
-          <div
-            class="choice"
-            v-bind:class="{
-              'bg-danger':
-                choiceChoose == 2 && question.choice2 != question.answer,
-              'bg-success':
-                choiceChoose != 0 && question.choice2 == question.answer,
-            }"
-            @click="selectChoice(2)"
-          >
-            <p class="choice-prefix">B</p>
-            <p class="choice-text" v-html="question.choice2"></p>
-          </div>
-          <div
-            class="choice"
-            v-bind:class="{
-              'bg-danger':
-                choiceChoose == 3 && question.choice3 != question.answer,
-              'bg-success':
-                choiceChoose != 0 && question.choice3 == question.answer,
-            }"
-            @click="selectChoice(3)"
-          >
-            <p class="choice-prefix">C</p>
-            <p class="choice-text" v-html="question.choice3"></p>
-          </div>
-          <div
-            class="choice"
-            v-bind:class="{
-              'bg-danger':
-                choiceChoose == 4 && question.choice4 != question.answer,
-              'bg-success':
-                choiceChoose != 0 && question.choice4 == question.answer,
-            }"
-            @click="selectChoice(4)"
-          >
-            <p class="choice-prefix">D</p>
-            <p class="choice-text" v-html="question.choice4"></p>
-          </div>
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col>
-          <b-button class="btquiz" @click="nextQuestion" :disabled=" choiceChoose == 0" >nextquestion</b-button>
-        </b-col>
-      </b-row>
-    </template> -->
     <template v-if="stateGame == 2">
+      <Game
+        :questionList="questionList"
+        :countCorrect="countCorrect"
+        :countInCorrect="countInCorrect"
+        :amount="amount"
+        v-on:changeState="changeState"
+        @addScore="addScore"
+      />
+    </template>
+    <template v-if="stateGame == 3">
       <div class="card">
         <b-row>
           <b-col>
-            <h2 class="correct">Correct answer : {{ amountCorrect }}</h2>
+            <h2 class="correct">Correct answer : {{ countCorrect }}</h2>
           </b-col>
         </b-row>
         <b-row>
           <b-col>
-            <h2 class="incorrect">InCorrect answer : {{ amountInCorrect }}</h2>
+            <h2 class="incorrect">InCorrect answer : {{ countInCorrect }}</h2>
           </b-col>
         </b-row>
       </div>
@@ -180,22 +117,17 @@ export default {
       questionList: [],
       amount: 10,
       category: 0,
-      amountCorrect: 0,
-      amountInCorrect: 0,
+      countCorrect: 0,
+      countInCorrect: 0,
       numberChoice: 1,
-      stateGame: 0,
+      stateGame: 1,
       choiceChoose: 0,
-      question: {
-        title: '',
-        choice1: '',
-        choice2: '',
-        choice3: '',
-        choice4: '',
-        answer: '',
-      },
     }
   },
   methods: {
+    changeState: function (state) {
+      this.stateGame = state
+    },
     getquestionList: function () {
       let apiquestions = 'https://opentdb.com/api.php?'
       console.log('category', this.category)
@@ -214,100 +146,31 @@ export default {
       axios.get(url).then((response) => {
         this.questionList = response.data.results
 
-        this.getquestion()
-        this.stateGame = 1
+        // this.getquestion()
+        this.stateGame = 2
         console.log(url)
         console.log(response)
         console.log(this.category)
       })
     },
-    getquestion: function () {
-      let result = this.questionList[this.numberChoice - 1]
-
-      this.question.title = this.numberChoice + '. ' + result.question
-      let choiceList = result.incorrect_answers
-      choiceList.push(result.correct_answer)
-      this.randomChoice(choiceList)
-      this.question.answer = result.correct_answer
-    },
-    randomChoice: function (choiceList) {
-      let choiceTempList = []
-
-      let index = 1
-      while (choiceList.length != 0) {
-        let random = Math.floor(Math.random() * choiceList.length)
-        if (index == 1) {
-          this.question.choice1 = choiceList[random]
-        }
-        if (index == 2) {
-          this.question.choice2 = choiceList[random]
-        }
-        if (index == 3) {
-          this.question.choice3 = choiceList[random]
-        }
-        if (index == 4) {
-          this.question.choice4 = choiceList[random]
-        }
-        index++
-        choiceList.splice(random, 1)
-        console.log('random' + random)
-        console.log(choiceList)
-      }
-      console.log(choiceTempList)
-      console.log(choiceList)
-    },
-    selectChoice: function (index) {
-      if (this.choiceChoose == 0) {
-        if (index == 1) {
-          this.addScore(this.question.choice1)
-        }
-        if (index == 2) {
-          this.addScore(this.question.choice2)
-        }
-        if (index == 3) {
-          this.addScore(this.question.choice3)
-        }
-        if (index == 4) {
-          this.addScore(this.question.choice4)
-        }
-        this.choiceChoose = index
-        console.log(this.question)
-      }
-    },
-    nextQuestion: function () {
-      if (this.numberChoice == this.questionList.length) {
-        this.stateGame = 2
+    addScore: function ({choiceText,answer}) {
+      if (choiceText == answer) {
+        this.countCorrect++
       } else {
-        this.choiceChoose = 0
-        this.numberChoice++
-        this.getquestion()
-      }
-    },
-    addScore: function (choiceText) {
-      if (choiceText == this.question.answer) {
-        this.amountCorrect++
-      } else {
-        this.amountInCorrect++
+        this.countInCorrect++
       }
     },
     generate: function (event) {
       this.getquestionList()
     },
     resetQuestionList() {
-      this.stateGame = 0
+      this.amount=10
+      this.stateGame = 1
       this.choiceChoose = 0
       this.questionList = []
-      this.amountCorrect = 0
-      this.amountInCorrect = 0
+      this.countCorrect = 0
+      this.countInCorrect = 0
       this.numberChoice = 1
-      this.question = {
-        title: '',
-        choice1: '',
-        choice2: '',
-        choice3: '',
-        choice4: '',
-        answer: '',
-      }
     },
   },
 }

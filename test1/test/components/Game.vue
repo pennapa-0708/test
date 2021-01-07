@@ -2,8 +2,10 @@
   <b-container>
     <b-row>
       <b-col>
-        <div class="amount">score {{ amountCorrect }}/{{ amount }}</div>
+        <div class="amount">score {{ countCorrect }}/{{ amount }}</div>
+        <div class="text-light">
         {{ question.answer }}
+        </div>
       </b-col>
     </b-row>
     <b-row>
@@ -80,14 +82,13 @@ import axios from 'axios'
 export default {
   props: {
     questionList: Array,
+    countCorrect:Number,
+    countInCorrect:Number,
+    amount:Number,
   },
   data() {
     return {
-      amount: 10,
-      amountCorrect: 0,
-      amountInCorrect: 0,
       numberChoice: 1,
-      stateGame: 0,
       choiceChoose: 0,
       question: {
         title: '',
@@ -99,10 +100,13 @@ export default {
       },
     }
   },
+  created() {
+    this.getquestion();
+  },
   methods: {
     getquestion: function () {
       let result = this.questionList[this.numberChoice - 1]
-
+      console.log(result)
       this.question.title = this.numberChoice + '. ' + result.question
       let choiceList = result.incorrect_answers
       choiceList.push(result.correct_answer)
@@ -116,14 +120,11 @@ export default {
         let random = Math.floor(Math.random() * choiceList.length)
         if (index == 1) {
           this.question.choice1 = choiceList[random]
-        }
-        if (index == 2) {
+        } else if (index == 2) {
           this.question.choice2 = choiceList[random]
-        }
-        if (index == 3) {
+        } else if (index == 3) {
           this.question.choice3 = choiceList[random]
-        }
-        if (index == 4) {
+        } else if (index == 4) {
           this.question.choice4 = choiceList[random]
         }
         index++
@@ -137,40 +138,28 @@ export default {
     selectChoice: function (index) {
       if (this.choiceChoose == 0) {
         if (index == 1) {
-          this.addScore(this.question.choice1)
+          this.$emit('addScore',{choiceText:this.question.choice1,answer:this.question.answer})
+        } else if (index == 2) {
+          this.$emit('addScore',{choiceText:this.question.choice2,answer:this.question.answer})
+        } else if (index == 3) {
+          this.$emit('addScore',{choiceText:this.question.choice3,answer:this.question.answer})
+        } else if (index == 4) {
+          this.$emit('addScore',{choiceText:this.question.choice4,answer:this.question.answer})
         }
-        if (index == 2) {
-          this.addScore(this.question.choice2)
-        }
-        if (index == 3) {
-          this.addScore(this.question.choice3)
-        }
-        if (index == 4) {
-          this.addScore(this.question.choice4)
-        }
+
         this.choiceChoose = index
         console.log(this.question)
       }
     },
     nextQuestion: function () {
       if (this.numberChoice == this.questionList.length) {
-        this.stateGame = 2
+        this.$emit('changeState',3)
       } else {
         this.choiceChoose = 0
         this.numberChoice++
         this.getquestion()
-        console.log('test',this.questionList)
+        console.log('test', this.questionList)
       }
-    },
-    addScore: function (choiceText) {
-      if (choiceText == this.question.answer) {
-        this.amountCorrect++
-      } else {
-        this.amountInCorrect++
-      }
-    },
-    generate: function (event) {
-      this.getquestionList()
     },
   },
 }

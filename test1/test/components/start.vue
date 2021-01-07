@@ -41,7 +41,7 @@
 import axios from 'axios'
 export default {
 props: {
-    
+     questionList: Array,
   },
   data() {
     return {
