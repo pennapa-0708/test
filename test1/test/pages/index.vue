@@ -10,27 +10,25 @@
         </div>
       </b-col>
     </b-row>
-    <Start v-if="stateGame == 1" 
-    :amount="amount"
-    :category="category"
-    v-on:getquestionList="getquestionList"/>
+    <Start v-if="stateGame == 1" v-on:getquestionList="getquestionList" />
     <Question
       v-if="stateGame == 2"
       :questionList="questionList"
-      :countCorrect="countCorrect"
-      :countInCorrect="countInCorrect"
       :amount="amount"
       v-on:changeState="changeState"
       v-on:addScore="addScore"
     />
-    <Reset v-if="stateGame == 3" />
+    <Reset
+      v-if="stateGame == 3"
+      :countCorrect="countCorrect"
+      :countInCorrect="countInCorrect"
+      v-on:resetQuestionList="resetQuestionList"
+    />
   </b-container>
 </template>
-
 <script>
 import axios from 'axios'
 import Title from '@/components/Title'
-// import section2 from '@/components/section2'
 import Start from '@/components/Start'
 import Question from '@/components/Question'
 import Reset from '@/components/Reset'
@@ -64,8 +62,7 @@ export default {
     },
     getquestionList: function (category, amount) {
       this.amount = amount
-      this.category=category
-      
+      this.category = category
       let apiquestions = 'https://opentdb.com/api.php?'
       console.log('category', this.category)
       let url = ''
@@ -96,9 +93,22 @@ export default {
         this.countInCorrect++
       }
     },
-    // generate: function (event) {
-    //   this.getquestionList()
-    // },
+    resetQuestionList() {
+      this.stateGame = 1
+      this.choiceChoose = 0
+      this.questionList = []
+      this.countCorrect = 0
+      this.countInCorrect = 0
+      this.numberChoice = 1
+      this.question = {
+        title: '',
+        choice1: '',
+        choice2: '',
+        choice3: '',
+        choice4: '',
+        answer: '',
+      }
+    },
   },
 }
 </script>

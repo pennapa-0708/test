@@ -1,48 +1,44 @@
 <template>
-      <form action="" class="from1">
-        <b-row>
-          <b-col>
-            <label for="number">Number of Questions:</label><br />
-            <input
-              type="number"
-              class="number_questions"
-              min="1"
-              max="50"
-              v-model="amount"
-            /><br />
-          </b-col>
-        </b-row>
-        <b-row>
-          <b-col>
-            <label for="catagory">Select Category:</label><br />
-            <select
-              name="catagory"
-              id="catagory"
-              class="select_catagory"
-              v-model="category"
-            >
-              <option
-                v-for="option_category in option_categorys"
-                v-bind:value="option_category.value"
-              >
-                {{ option_category.text }}
-              </option>
-            </select>
-          </b-col>
-        </b-row>
-        <b-row>
-          <b-col>
-            <b-button class="bt" v-on:click="generate">GENERATE QUIZ</b-button>
-          </b-col>
-        </b-row>
-      </form>
+  <form action="" class="from1">
+    <b-row>
+      <b-col>
+        <label for="number">Number of Questions:</label><br />
+        <input
+          type="number"
+          class="number_questions"
+          min="1"
+          max="50"
+          v-model="amount"
+        /><br />
+      </b-col>
+    </b-row>
+    <b-row>
+      <b-col>
+        <label for="catagory">Select Category:</label><br />
+        <select
+          name="catagory"
+          id="catagory"
+          class="select_catagory"
+          v-model="category"
+        >
+          <option
+            v-for="option_category in option_categorys"
+            v-bind:value="option_category.value"
+          >
+            {{ option_category.text }}
+          </option>
+        </select>
+      </b-col>
+    </b-row>
+    <b-row>
+      <b-col>
+        <b-button class="bt" v-on:click="generate">GENERATE QUIZ</b-button>
+      </b-col>
+    </b-row>
+  </form>
 </template>
 <script>
 export default {
-   props: {
-    amount: Number,
-    category:Number,
-  },
   data() {
     return {
       option_categorys: [
@@ -78,9 +74,9 @@ export default {
     }
   },
   methods: {
-    generate: function(){
-      this.$emit('getquestionList',this.category,this.amount)
-    }
+    generate: function () {
+      this.$emit('getquestionList', this.category, this.amount)
+    },
   },
 }
 </script>

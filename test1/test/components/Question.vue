@@ -73,8 +73,6 @@
 export default {
   props: {
     questionList: Array,
-    countCorrect:Number,
-    countInCorrect:Number,
     amount:Number,
   },
   data() {
