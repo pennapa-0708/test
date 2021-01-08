@@ -79,6 +79,8 @@ export default {
     return {
       numberChoice: 1,
       choiceChoose: 0,
+      countCorrect: 0,
+      countInCorrect: 0,
       question: {
         title: '',
         choice1: '',
@@ -127,29 +129,27 @@ export default {
     selectChoice: function (index) {
       if (this.choiceChoose == 0) {
         if (index == 1) {
-          this.$emit('addScore', {
-            choiceText: this.question.choice1,
-            answer: this.question.answer,
-          })
+          this.addScore(this.question.choice1)
         } else if (index == 2) {
-          this.$emit('addScore', {
-            choiceText: this.question.choice2,
-            answer: this.question.answer,
-          })
+          this.addScore(this.question.choice2)
         } else if (index == 3) {
-          this.$emit('addScore', {
-            choiceText: this.question.choice3,
-            answer: this.question.answer,
-          })
+          this.addScore(this.question.choice3)
         } else if (index == 4) {
-          this.$emit('addScore', {
-            choiceText: this.question.choice4,
-            answer: this.question.answer,
-          })
+          this.addScore(this.question.choice4)
         }
         this.choiceChoose = index
         console.log(this.question)
       }
+    },
+    addScore: function (choiceText, countCorrect, countInCorrect) {
+      if (choiceText == this.question.answer) {
+        this.countCorrect++
+      } else {
+        this.countInCorrect++
+      }
+      console.log(countCorrect)
+      console.log(countInCorrect)
+      this.$emit('Score', this.countCorrect, this.countInCorrect)
     },
     nextQuestion: function () {
       if (this.numberChoice == this.questionList.length) {

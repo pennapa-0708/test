@@ -16,7 +16,7 @@
       :questionList="questionList"
       :amount="amount"
       @changeState="changeState"
-      @addScore="addScore"
+      @Score="Score"
     />
     <Result
       v-if="stateGame == 3"
@@ -73,12 +73,9 @@ export default {
         this.stateGame = 2
       })
     },
-    addScore: function ({ choiceText, answer }) {
-      if (choiceText == answer) {
-        this.countCorrect++
-      } else {
-        this.countInCorrect++
-      }
+    Score: function (countCorrect,countInCorrect) {
+     this.countCorrect = countCorrect
+     this.countInCorrect= countInCorrect
     },
     resetQuestionList() {
       this.stateGame = 1
