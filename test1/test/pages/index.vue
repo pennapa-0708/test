@@ -5,18 +5,15 @@
     <b-row v-if="stateGame == 2">
       <b-col>
         <div class="amount">score {{ countCorrect }}/{{ amount }}</div>
-        <div class="text-light">
-          {{ question.answer }}
-        </div>
       </b-col>
     </b-row>
-    <Start v-if="stateGame == 1" v-on:getquestionList="getquestionList" />
+    <Start v-if="stateGame == 1" v-on:getQuestionList="getQuestionList" />
     <Question
       v-if="stateGame == 2"
       :questionList="questionList"
       :amount="amount"
       @changeState="changeState"
-      @Score="Score"
+      @score="score"
     />
     <Result
       v-if="stateGame == 3"
@@ -46,34 +43,25 @@ export default {
       countCorrect: 0,
       countInCorrect: 0,
       stateGame: 1,
-      question: {
-        title: '',
-        choice1: '',
-        choice2: '',
-        choice3: '',
-        choice4: '',
-        answer: '',
-      },
     }
   },
   methods: {
     changeState: function (state) {
       this.stateGame = state
     },
-    getquestionList: function (category, amount) {
+    getQuestionList: function (category, amount) {
       this.amount = amount
       this.category = category
       const url = new URL('https://opentdb.com/api.php')
       url.searchParams.append('amount', this.amount)
       url.searchParams.append('category', this.category)
       url.searchParams.append('type', 'multiple')
-      console.log(url)
       axios.get(url).then((response) => {
         this.questionList = response.data.results
         this.stateGame = 2
       })
     },
-    Score: function (countCorrect,countInCorrect) {
+    score: function (countCorrect,countInCorrect) {
      this.countCorrect = countCorrect
      this.countInCorrect= countInCorrect
     },
@@ -84,14 +72,6 @@ export default {
       this.countCorrect = 0
       this.countInCorrect = 0
       this.numberChoice = 1
-      this.question = {
-        title: '',
-        choice1: '',
-        choice2: '',
-        choice3: '',
-        choice4: '',
-        answer: '',
-      }
     },
   },
 }
@@ -99,5 +79,12 @@ export default {
 <style>
 body {
   background-color: #383e4e;
+}
+.amount {
+  float: right;
+  color: white;
+  font-weight: bold;
+  border: 2px solid black;
+  padding: 1%;
 }
 </style>

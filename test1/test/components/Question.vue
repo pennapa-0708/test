@@ -92,12 +92,11 @@ export default {
     }
   },
   created() {
-    this.getquestion()
+    this.getQuestion()
   },
   methods: {
-    getquestion: function () {
+    getQuestion: function () {
       let result = this.questionList[this.numberChoice - 1]
-      console.log(result)
       this.question.title = this.numberChoice + '. ' + result.question
       let choiceList = result.incorrect_answers
       choiceList.push(result.correct_answer)
@@ -120,11 +119,7 @@ export default {
         }
         index++
         choiceList.splice(random, 1)
-        console.log('random' + random)
-        console.log(choiceList)
       }
-      console.log(choiceTempList)
-      console.log(choiceList)
     },
     selectChoice: function (index) {
       if (this.choiceChoose == 0) {
@@ -138,7 +133,6 @@ export default {
           this.addScore(this.question.choice4)
         }
         this.choiceChoose = index
-        console.log(this.question)
       }
     },
     addScore: function (choiceText, countCorrect, countInCorrect) {
@@ -147,9 +141,7 @@ export default {
       } else {
         this.countInCorrect++
       }
-      console.log(countCorrect)
-      console.log(countInCorrect)
-      this.$emit('Score', this.countCorrect, this.countInCorrect)
+      this.$emit('score', this.countCorrect, this.countInCorrect)
     },
     nextQuestion: function () {
       if (this.numberChoice == this.questionList.length) {
@@ -157,8 +149,7 @@ export default {
       } else {
         this.choiceChoose = 0
         this.numberChoice++
-        this.getquestion()
-        console.log('test', this.questionList)
+        this.getQuestion()
       }
     },
   },
@@ -192,12 +183,5 @@ export default {
 .urlapi {
   font-weight: bold;
   font-size: 25px;
-}
-.amount {
-  float: right;
-  color: white;
-  font-weight: bold;
-  border: 2px solid black;
-  padding: 1%;
 }
 </style>

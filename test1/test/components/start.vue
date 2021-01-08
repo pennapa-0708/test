@@ -16,16 +16,14 @@
       <b-col>
         <label for="catagory">Select Category:</label><br />
         <select
-          name="catagory"
-          id="catagory"
           class="select_catagory"
           v-model="category"
         >
           <option
-            v-for="option_category in option_categorys"
-            :value="option_category.value"
+            v-for="optionCategory in optionCategorys"
+            :value="optionCategory.value"
           >
-            {{ option_category.text }}
+            {{ optionCategory.text }}
           </option>
         </select>
       </b-col>
@@ -41,7 +39,7 @@
 export default {
   data() {
     return {
-      option_categorys: [
+      optionCategorys: [
         { value: '0', text: 'Any Catagory' },
         { value: '9', text: 'General Knowledge' },
         { value: '10', text: 'Entertainment: Books' },
@@ -75,7 +73,7 @@ export default {
   },
   methods: {
     generate: function () {
-      this.$emit('getquestionList', this.category, this.amount)
+      this.$emit('getQuestionList', this.category, this.amount)
     },
   },
 }
