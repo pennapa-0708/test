@@ -15,14 +15,14 @@
       v-if="stateGame == 2"
       :questionList="questionList"
       :amount="amount"
-      v-on:changeState="changeState"
-      v-on:addScore="addScore"
+      @changeState="changeState"
+      @addScore="addScore"
     />
-    <Reset
+    <Result
       v-if="stateGame == 3"
       :countCorrect="countCorrect"
       :countInCorrect="countInCorrect"
-      v-on:resetQuestionList="resetQuestionList"
+      @resetQuestionList="resetQuestionList"
     />
   </b-container>
 </template>
@@ -31,13 +31,13 @@ import axios from 'axios'
 import Title from '@/components/Title'
 import Start from '@/components/Start'
 import Question from '@/components/Question'
-import Reset from '@/components/Reset'
+import Result from '@/components/Result'
 export default {
   components: {
     Title,
     Start,
     Question,
-    Reset,
+    Result,
   },
   data() {
     return {

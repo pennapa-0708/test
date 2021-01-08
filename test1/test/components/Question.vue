@@ -5,7 +5,7 @@
         <p class="urlapi text-light" v-html="question.title"></p>
         <div
           class="choice"
-          v-bind:class="{
+          :class="{
             'bg-danger':
               choiceChoose == 1 && question.choice1 != question.answer,
             'bg-success':
@@ -18,7 +18,7 @@
         </div>
         <div
           class="choice"
-          v-bind:class="{
+          :class="{
             'bg-danger':
               choiceChoose == 2 && question.choice2 != question.answer,
             'bg-success':
@@ -31,7 +31,7 @@
         </div>
         <div
           class="choice"
-          v-bind:class="{
+          :class="{
             'bg-danger':
               choiceChoose == 3 && question.choice3 != question.answer,
             'bg-success':
@@ -44,7 +44,7 @@
         </div>
         <div
           class="choice"
-          v-bind:class="{
+          :class="{
             'bg-danger':
               choiceChoose == 4 && question.choice4 != question.answer,
             'bg-success':
@@ -73,7 +73,7 @@
 export default {
   props: {
     questionList: Array,
-    amount:Number,
+    amount: Number,
   },
   data() {
     return {
@@ -90,7 +90,7 @@ export default {
     }
   },
   created() {
-    this.getquestion();
+    this.getquestion()
   },
   methods: {
     getquestion: function () {
@@ -127,13 +127,25 @@ export default {
     selectChoice: function (index) {
       if (this.choiceChoose == 0) {
         if (index == 1) {
-          this.$emit('addScore',{choiceText:this.question.choice1,answer:this.question.answer})
+          this.$emit('addScore', {
+            choiceText: this.question.choice1,
+            answer: this.question.answer,
+          })
         } else if (index == 2) {
-          this.$emit('addScore',{choiceText:this.question.choice2,answer:this.question.answer})
+          this.$emit('addScore', {
+            choiceText: this.question.choice2,
+            answer: this.question.answer,
+          })
         } else if (index == 3) {
-          this.$emit('addScore',{choiceText:this.question.choice3,answer:this.question.answer})
+          this.$emit('addScore', {
+            choiceText: this.question.choice3,
+            answer: this.question.answer,
+          })
         } else if (index == 4) {
-          this.$emit('addScore',{choiceText:this.question.choice4,answer:this.question.answer})
+          this.$emit('addScore', {
+            choiceText: this.question.choice4,
+            answer: this.question.answer,
+          })
         }
 
         this.choiceChoose = index
@@ -142,7 +154,7 @@ export default {
     },
     nextQuestion: function () {
       if (this.numberChoice == this.questionList.length) {
-        this.$emit('changeState',3)
+        this.$emit('changeState', 3)
       } else {
         this.choiceChoose = 0
         this.numberChoice++

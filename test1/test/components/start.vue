@@ -23,7 +23,7 @@
         >
           <option
             v-for="option_category in option_categorys"
-            v-bind:value="option_category.value"
+            :value="option_category.value"
           >
             {{ option_category.text }}
           </option>
@@ -32,7 +32,7 @@
     </b-row>
     <b-row>
       <b-col>
-        <b-button class="bt" v-on:click="generate">GENERATE QUIZ</b-button>
+        <b-button class="bt" @click="generate">GENERATE QUIZ</b-button>
       </b-col>
     </b-row>
   </form>
