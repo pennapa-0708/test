@@ -63,27 +63,14 @@ export default {
     getquestionList: function (category, amount) {
       this.amount = amount
       this.category = category
-      let apiquestions = 'https://opentdb.com/api.php?'
-      console.log('category', this.category)
-      let url = ''
-      if (this.category == 0) {
-        url = apiquestions + 'amount=' + this.amount + '&type=multiple'
-      } else {
-        url =
-          apiquestions +
-          'amount=' +
-          this.amount +
-          '&category=' +
-          this.category +
-          '&type=multiple'
-      }
+      const url = new URL('https://opentdb.com/api.php')
+      url.searchParams.append('amount', this.amount)
+      url.searchParams.append('category', this.category)
+      url.searchParams.append('type', 'multiple')
+      console.log(url)
       axios.get(url).then((response) => {
         this.questionList = response.data.results
-        // this.getquestion()
         this.stateGame = 2
-        console.log(url)
-        console.log(response)
-        console.log(this.category)
       })
     },
     addScore: function ({ choiceText, answer }) {

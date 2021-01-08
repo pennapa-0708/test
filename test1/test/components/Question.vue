@@ -147,7 +147,6 @@ export default {
             answer: this.question.answer,
           })
         }
-
         this.choiceChoose = index
         console.log(this.question)
       }
