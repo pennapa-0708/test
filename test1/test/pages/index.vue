@@ -11,7 +11,6 @@
     <Question
       v-if="stateGame == 2"
       :questionList="questionList"
-      :amount="amount"
       @changeState="changeState"
       @score="score"
     />

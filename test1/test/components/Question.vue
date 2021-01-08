@@ -73,7 +73,6 @@
 export default {
   props: {
     questionList: Array,
-    amount: Number,
   },
   data() {
     return {
