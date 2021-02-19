@@ -1,10 +1,9 @@
 <template>
-  <div>
+  <div class="chart">
     <linechart
       :chart-data="datacollection"
       :height="300"
       :options="options"
-      class="chart"
     ></linechart>
   </div>
 </template>
@@ -18,7 +17,6 @@ export default {
   data() {
     return {
       datacollection: null,
-
       options: {
         maintainAspectRatio: false,
         scales: {
@@ -55,19 +53,37 @@ export default {
           display: true,
           text: 'Amount (THB)',
           position: 'left',
-          fontColor:'#7C818D',
-          fontSize:14
+          fontColor: '#7C818D',
+          fontSize: 14,
         },
         tooltips: {
-          backgroundColor: '#FFFFFF',
+          mode: 'index',
+          backgroundColor: 'rgba(255, 255, 255, 0.9)',
           borderColor: '#E9ECF3',
           titleFontColor: '#7C818D',
           titleFontSize: 12,
-          bodyFontColor:'#272E39',
+          bodyFontColor: '#272E39',
+          displayColors: false,
+          cornerRadius: 2,
+          caretSize: 0,
+          caretPadding: 15,
+          xPadding: 15,
+          yPadding: 15,
+          position: 'nearest',
         },
         elements: {
           line: {
             tension: 0,
+            borderWidth: 1.5,
+            borderColor: '#5847D7',
+            backgroundColor: '#5847D710',
+          },
+          point: {
+            pointStyle: 'circle',
+            backgroundColor: '#5847D7',
+            borderColor: '#5847D710',
+            radius: 0,
+            hoverBorderWidth: 15,
           },
         },
       },
@@ -79,7 +95,6 @@ export default {
   methods: {
     fillData() {
       this.datacollection = {
-        borderWidth: 100,
         labels: [
           '01/01/2020',
           '03/01/2020',
@@ -95,11 +110,7 @@ export default {
         ],
         datasets: [
           {
-            label: 'Total amount',
-            radius: 0,
-            hoverBorderWidth: 15,
-            borderColor: '#5847D7',
-            backgroundColor: '#5847D710',
+            label: 'Total amount ',
             data: [
               225000.0,
               250000.0,
@@ -120,7 +131,6 @@ export default {
   },
 }
 </script>
-
 <style>
 .small {
   margin: 150px auto;
@@ -128,5 +138,6 @@ export default {
 .chart {
   width: 100%;
   height: 5%;
+  font-family: 'Sarabun Regular';
 }
 </style>
